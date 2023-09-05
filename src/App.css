@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Spectral+SC:wght@400;600&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	--type-first: 'IBM Plex Serif', sans-serif;
+	--type-second: 'Spectral SC', serif;
+	--color-p1: #fff9ec;
+	--color-p2: #f0e6d2;
+	--color-p3: #c4b998;
+	--color-p4: #cdbd91;
+	--color-p5: #c3a758;
+	--color-p6: #937341;
+	--color-p7: #8b6e38;
+	--color-p7: #67512c;
+	--color-s3: #1c2229;
+	--color-s4: #010a13;
+	--gap-s: 0.75rem;
+	--gap: 1.25rem;
+}
+
+body {
+	margin: 0;
+	font-family: var(--type-first);
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+	margin: 0;
+}
+
+ul,
+li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
