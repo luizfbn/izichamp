@@ -1,0 +1,37 @@
+.inputWrapper {
+	display: flex;
+}
+
+.inputWrapper input {
+	width: 100%;
+	color: var(--color-c11);
+	background: var(--color-c2);
+	font-family: var(--type-first);
+	font-size: 1.5rem;
+	padding: 0.75rem 1.5rem;
+}
+
+.inputWrapper input:focus {
+	background: var(--color-p1);
+	outline: none;
+}
+
+.inputWrapper input,
+.inputWrapper input:focus {
+	border-image: var(--color-gradient) 1;
+	border-width: 2px;
+	border-style: solid;
+}
+
+.inputIcon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--color-gradient);
+	width: 62px;
+	transition: width 0.5s;
+}
+
+input:focus + .inputIcon {
+	width: 0;
+}

@@ -17,6 +17,10 @@ html {
 	--color-p7: #67512c;
 	--color-s3: #1c2229;
 	--color-s4: #010a13;
+	--color-c1: #f7f7f7;
+	--color-c2: #ededed;
+	--color-c11: #111111;
+	--color-gradient: linear-gradient(var(--color-p5), var(--color-p7));
 	--gap-s: 0.75rem;
 	--gap: 1.25rem;
 }
