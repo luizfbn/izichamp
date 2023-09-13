@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Search.module.css';
 import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
-import { ISeachSelect, ISearchItem } from '../../Types/Search';
+import { ISeachSelect, ISearchFilter } from '../../Types/Search';
 
 type ISearch = {
 	placeholder?: string;
@@ -17,9 +17,9 @@ type ISelectSettings = {
 
 type IFilterSettings = {
 	mode: 'filter';
-	list: ISearchItem[];
+	list: ISearchFilter[];
 	responseList?: undefined;
-	setResponseList: React.Dispatch<React.SetStateAction<ISearchItem[]>>;
+	setResponseList: React.Dispatch<React.SetStateAction<ISearchFilter[]>>;
 };
 
 const Search = ({
@@ -35,12 +35,9 @@ const Search = ({
 	const searchRef = React.useRef<HTMLDivElement>(null);
 
 	function handleClickOutside(event: MouseEvent) {
-		if (
-			searchRef.current &&
-			!searchRef.current.contains(event.target as Node)
-		) {
+		searchRef.current &&
+			!searchRef.current.contains(event.target as Node) &&
 			setShowResult(false);
-		}
 	}
 
 	function handleSelect(item: ISeachSelect) {
@@ -50,30 +47,34 @@ const Search = ({
 		setResponseList((selected) => [...selected, item]);
 	}
 
-	React.useEffect(() => {
-		document.addEventListener('click', handleClickOutside, false);
-		return () => {
-			document.removeEventListener('click', handleClickOutside, false);
-		};
-	}, []);
-
-	React.useEffect(() => {
-		function updateListResult(search: string) {
+	const updateListResult = React.useCallback(
+		(search: string) => {
 			const searchResult = list.filter((item) => {
 				if ((!search || item.selected) && mode === 'select') return;
 				return item.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
 			});
 			mode === 'filter'
-				? setResponseList(searchResult)
+				? setResponseList(searchResult as ISearchFilter[])
 				: setResultList(searchResult as ISeachSelect[]);
-		}
+		},
+		[list, mode, setResponseList]
+	);
+
+	React.useEffect(() => {
 		const timeout = setTimeout(() => {
 			updateListResult(searchInput);
 		}, 500);
 		return () => {
 			clearTimeout(timeout);
 		};
-	}, [searchInput, list, mode, responseList, setResponseList]);
+	}, [searchInput, responseList, updateListResult]);
+
+	React.useEffect(() => {
+		document.addEventListener('click', handleClickOutside, false);
+		return () => {
+			document.removeEventListener('click', handleClickOutside, false);
+		};
+	}, []);
 
 	return (
 		<div className={styles.search} ref={searchRef}>

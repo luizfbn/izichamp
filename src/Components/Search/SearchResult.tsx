@@ -1,18 +1,15 @@
 import styles from './SearchResult.module.css';
-import { ReactComponent as ChampionIcon } from '../../assets/champion.svg';
-import { ReactComponent as SkinIcon } from '../../assets/skin.svg';
-import { ReactComponent as NotFoundIcon } from '../../assets/search-not-found.svg';
-import { ISeachSelect, ISearchSkin } from '../../Types/Search';
+import { ReactComponent as ChampionIcon } from '../../Assets/champion.svg';
+import { ReactComponent as SkinIcon } from '../../Assets/skin.svg';
+import { ReactComponent as NotFoundIcon } from '../../Assets/search-not-found.svg';
+import { ISeachSelect } from '../../Types/Search';
+import { isSkin } from '../../helper';
 
 type ISearchResult = {
 	list: ISeachSelect[];
 	inputValue: string;
 	onClickItem: (item: ISeachSelect) => void;
 };
-
-function isSkin(item: ISeachSelect): item is ISearchSkin {
-	return (item as ISearchSkin).tilePath !== undefined;
-}
 
 const SearchResult = ({ list, inputValue, onClickItem }: ISearchResult) => {
 	return (

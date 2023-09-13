@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './SearchInput.module.css';
-import { ReactComponent as SearchIcon } from '../../assets/search.svg';
+import { ReactComponent as SearchIcon } from '../../Assets/search.svg';
 
 const SearchInput = ({ ...props }: React.ComponentProps<'input'>) => {
 	return (

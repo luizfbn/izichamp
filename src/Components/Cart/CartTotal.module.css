@@ -1,0 +1,100 @@
+.total {
+	display: flex;
+	flex-direction: column;
+	background: var(--color-s3);
+	border: 1px solid var(--color-p5);
+	max-width: 360px;
+	max-height: 260px;
+	padding: 1.5rem;
+	gap: 1rem;
+	position: sticky;
+	top: 0;
+}
+
+.total h3 {
+	font-family: var(--type-second);
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--color-p4);
+}
+
+.total ul {
+	margin-bottom: 1.5rem;
+}
+
+.total li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.total li:not(:last-child) {
+	margin-bottom: 0.5rem;
+}
+
+.total li p {
+	font-family: var(--type-first);
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--color-p2);
+}
+
+.total li span {
+	min-width: 80px;
+	font-family: var(--type-first);
+	font-size: 1.25rem;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--color-c1);
+}
+
+.total li span svg {
+	width: 20px;
+	margin-right: 0.5rem;
+}
+
+.total button {
+	background: var(--color-c10);
+	border: none;
+	cursor: pointer;
+	border-image: var(--color-gradient) 1;
+	border-width: 1px;
+	border-style: solid;
+	color: var(--color-p5);
+	font-family: var(--type-second);
+	font-size: 1rem;
+	line-height: 1.5;
+	letter-spacing: 0.01rem;
+	padding: 0.5rem 1rem;
+	transition-property: box-shadow, color;
+	transition-duration: 0.5s;
+}
+
+.total button:hover,
+.total button:focus {
+	outline: none;
+	box-shadow: inset 0 -8px 12px -8px var(--color-p4);
+	color: var(--color-p3);
+}
+
+@media (max-width: 992px) {
+	.total h3 {
+		font-size: 1.25rem;
+	}
+	.total li p {
+		font-size: 0.75rem;
+	}
+	.total li span {
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 576px) {
+	.total {
+		position: initial;
+		max-height: initial;
+	}
+}

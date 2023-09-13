@@ -1,57 +1,58 @@
 import React from 'react';
 import Search from '../Components/Search/Search';
-import Cart from '../Components/Cart';
+import Cart from '../Components/Cart/Cart';
 import useFetch from '../Hooks/useFetch';
 import { ISeachSelect } from '../Types/Search';
+import { ICartItem } from '../Types/Cart';
+import {
+	CHAMPIONS_WITH_PRICES_URL,
+	SKINS_PT_BR_URL,
+	ISkinPortuguese,
+	IChampionWithPrice,
+	ISkinWithPrice,
+	CHAMPIONS_URL,
+	IChampion,
+} from '../api';
 
-type IChampion = {
-	id: number;
-	name: string;
-	title: string;
-	icon: string;
-	price?: {
-		blueEssence: number;
-		rp: number;
-	};
-	skins?: ISkin[];
-	selected?: boolean;
+type IRequestSkins = { [key: string]: ISkinPortuguese };
+type IRequestChampions = { [key: string]: IChampionWithPrice };
+type IRequestChampionsTranslate = { data: { [key: string]: IChampion } };
+type IRequestChampionsProcessed = IChampionWithPrice & {
+	skins: IRequestSkinsProcessed[];
 };
-
-type ISkin = {
-	id: number;
-	name: string;
-	tilePath: string;
-	loadScreenPath: string;
-	availability: 'Available' | 'Legacy' | 'Upcoming';
-	cost: number | 'Special';
-	selected?: boolean;
-};
-
-type IRequestSkin = { [key: string]: Omit<ISkin, 'availability' | 'cost'> };
-type IRequestChampion = { [key: string]: IChampion };
+type IRequestSkinsProcessed = ISkinWithPrice & { cost: number };
 
 const Home = () => {
-	const requestChampions = useFetch<IRequestChampion>(
-		`https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions.json`,
+	const requestChampions = useFetch<IRequestChampions>(
+		CHAMPIONS_WITH_PRICES_URL,
 		{
 			cache: 'force-cache',
 		}
 	);
-	const requestSkins = useFetch<IRequestSkin>(
-		'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/pt_br/v1/skins.json'
-	);
+	const requestChampionsTranslate =
+		useFetch<IRequestChampionsTranslate>(CHAMPIONS_URL);
+	const requestSkins = useFetch<IRequestSkins>(SKINS_PT_BR_URL);
 	const [searchList, setSearchList] = React.useState<ISeachSelect[]>([]);
-	const [searchSelected, setSearchSelected] = React.useState<ISeachSelect[]>(
-		[]
-	);
+	const [selectedList, setSelectedList] = React.useState<ICartItem[]>([]);
 
 	React.useEffect(() => {
 		function handleData() {
-			if (!requestChampions.data || !requestSkins.data) return;
+			if (
+				!requestChampions.data ||
+				!requestSkins.data ||
+				!requestChampionsTranslate.data
+			)
+				return;
 			setSearchList([]);
-			setSearchSelected([]);
+			setSelectedList([]);
 			Object.values(requestChampions.data).forEach((item) => {
-				item.skins = item.skins!.filter((skin) => {
+				if (
+					requestChampionsTranslate.data?.data &&
+					requestChampionsTranslate.data?.data[item.key]
+				) {
+					item.title = requestChampionsTranslate.data?.data[item.key].title;
+				}
+				item.skins = item.skins.filter((skin) => {
 					if (
 						skin.name === 'Original' ||
 						skin.cost === 'Special' ||
@@ -64,19 +65,37 @@ const Home = () => {
 					}
 					return true;
 				});
-				setSearchList((skins) => [...skins, ...item.skins!]);
+				setSearchList((skins) => [
+					...skins,
+					...(item.skins as IRequestSkinsProcessed[]),
+				]);
 			});
 			setSearchList((skins) => [
-				...(requestChampions.data ? Object.values(requestChampions.data) : []),
+				...((requestChampions.data
+					? Object.values(requestChampions.data)
+					: []) as IRequestChampionsProcessed[]),
 				...skins,
 			]);
 		}
 		handleData();
-	}, [requestChampions.data, requestSkins.data]);
+	}, [
+		requestChampions.data,
+		requestSkins.data,
+		requestChampionsTranslate.data,
+	]);
 
-	if (requestChampions.loading === true || requestSkins.loading === true)
+	if (
+		requestChampions.loading === true ||
+		requestChampionsTranslate.loading === true ||
+		requestSkins.loading === true
+	)
 		return <div>Carregando...</div>;
-	if (requestChampions.data === null || requestSkins.data === null) return null;
+	if (
+		requestChampions.data === null ||
+		requestChampionsTranslate.data === null ||
+		requestSkins.data === null
+	)
+		return null;
 	return (
 		<div>
 			<h1>Home</h1>
@@ -84,10 +103,14 @@ const Home = () => {
 				list={searchList}
 				mode='select'
 				placeholder='Busque e adicione seu campeão ou skin'
-				responseList={searchSelected}
-				setResponseList={setSearchSelected}
+				responseList={selectedList}
+				setResponseList={
+					setSelectedList as React.Dispatch<
+						React.SetStateAction<ISeachSelect[]>
+					>
+				}
 			/>
-			<Cart cartItems={searchSelected} setCartItems={setSearchSelected} />
+			<Cart list={selectedList} setList={setSelectedList} />
 		</div>
 	);
 };

@@ -1,15 +1,17 @@
-export type ISearchItem = {
-	id: number | string;
-	name: string;
-	selected?: boolean;
-};
+import { IChampion, IChampionWithPrice, ISkinWithPrice } from '../api';
 
 export type ISeachSelect = ISearchChampion | ISearchSkin;
 
-export type ISearchChampion = ISearchItem & {
-	icon: string;
+export type ISearchFilter = IChampion & {
+	selected?: boolean;
 };
 
-export type ISearchSkin = ISearchItem & {
-	tilePath: string;
+export type ISearchChampion = IChampionWithPrice & {
+	skins: ISearchSkin[];
+	selected?: boolean;
+};
+
+export type ISearchSkin = ISkinWithPrice & {
+	cost: number;
+	selected?: boolean;
 };

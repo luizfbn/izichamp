@@ -1,0 +1,116 @@
+.price {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.priceTitle {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	cursor: pointer;
+}
+
+.priceTitle h3 {
+	font-family: var(--type-first);
+	font-size: 1.25rem;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--color-c1);
+}
+
+.priceTitle h4 {
+	font-family: var(--type-first);
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--color-c5);
+	align-self: end;
+	text-decoration: line-through;
+}
+
+.priceTitle svg {
+	height: 20px;
+	width: auto;
+	margin-right: 0.25rem;
+}
+
+.priceDiscount {
+	display: flex;
+	line-height: 0;
+	gap: 0.5rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.priceCheckbox input[type='checkbox'] {
+	display: none;
+}
+
+.priceCheckbox label {
+	display: inline-block;
+	height: 20px;
+	width: auto;
+	cursor: pointer;
+}
+
+.priceCheckbox input[type='checkbox'] + label svg {
+	transition: filter 0.5s;
+}
+
+.priceCheckbox input[type='checkbox'] + label svg:hover * {
+	fill: var(--color-p4);
+}
+
+.priceCheckbox input[type='checkbox'] + label svg:hover {
+	filter: drop-shadow(0 0 8px var(--color-p4));
+}
+
+.priceCheckbox input[type='checkbox']:checked + label svg * {
+	fill: var(--color-p5);
+}
+
+.priceDiscount input[type='number'],
+.priceDiscount input[type='number']:focus {
+	border-image: var(--color-gradient) 1;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.priceDiscount input[type='number'] {
+	background: var(--color-s3);
+	font-family: var(--type-first);
+	font-size: 0.75rem;
+	line-height: 1;
+	color: var(--color-c1);
+	text-align: center;
+	padding: 0.25rem 0.5rem;
+	max-width: 48px;
+	transition: all 0.5s;
+}
+
+.priceDiscount input[type='number']:focus {
+	outline: none;
+	box-shadow: 0 0 4px var(--color-p4);
+}
+
+.priceDiscount input[type='number']::-webkit-outer-spin-button,
+.priceDiscount input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.priceDiscount input[type='number'] {
+	appearance: none;
+	-moz-appearance: textfield;
+}
+
+@media (max-width: 992px) {
+	.priceTitle h3 {
+		font-size: 1rem;
+	}
+	.priceTitle h4 {
+		font-size: 0.75rem;
+	}
+}

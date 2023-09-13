@@ -14,13 +14,20 @@ html {
 	--color-p5: #c3a758;
 	--color-p6: #937341;
 	--color-p7: #8b6e38;
-	--color-p7: #67512c;
+	--color-p8: #67512c;
 	--color-s3: #1c2229;
 	--color-s4: #010a13;
 	--color-c1: #f7f7f7;
 	--color-c2: #ededed;
+	--color-c5: #b2b2b2;
+	--color-c6: #9c9c9c;
+	--color-c10: #2e2e2e;
 	--color-c11: #111111;
 	--color-gradient: linear-gradient(var(--color-p5), var(--color-p7));
+	--color-gradient-radial: radial-gradient(
+		var(--color-p2) 0%,
+		rgba(103, 81, 44, 0.2) 100%
+	);
 	--gap-s: 0.75rem;
 	--gap: 1.25rem;
 }

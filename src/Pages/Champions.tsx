@@ -1,27 +1,16 @@
 import React from 'react';
 import Search from '../Components/Search/Search';
 import useFetch from '../Hooks/useFetch';
-import { ISearchItem } from '../Types/Search';
-
-type IChampion = {
-	id: string;
-	key: string;
-	name: string;
-	title: string;
-	image: {
-		full: string;
-	};
-};
+import { ISearchFilter } from '../Types/Search';
+import { CHAMPIONS_URL, IChampion } from '../api';
 
 type IRequestChampion = { data: { [key: string]: IChampion } };
 
 const Champions = () => {
-	const requestChampions = useFetch<IRequestChampion>(
-		`https://ddragon.leagueoflegends.com/cdn/13.17.1/data/pt_BR/champion.json`
-	);
-	const [championList, setChampionList] = React.useState<IChampion[]>([]);
+	const requestChampions = useFetch<IRequestChampion>(CHAMPIONS_URL);
+	const [championList, setChampionList] = React.useState<ISearchFilter[]>([]);
 	const [championListFiltered, setChampionListFiltered] = React.useState<
-		ISearchItem[]
+		ISearchFilter[]
 	>([]);
 
 	React.useEffect(() => {

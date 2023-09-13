@@ -1,0 +1,19 @@
+.prices {
+	display: flex;
+	position: relative;
+	margin-right: 2.5rem;
+}
+
+.prices > div + div {
+	margin-left: 0.75rem;
+	padding-left: 0.75rem;
+	border-image: var(--color-gradient-radial) 1;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+
+@media (max-width: 992px) {
+	.prices {
+		margin-right: 0;
+	}
+}
