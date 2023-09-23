@@ -22,6 +22,22 @@ type IRequestChampionsProcessed = IChampionWithPrice & {
 };
 type IRequestSkinsProcessed = ISkinWithPrice & { cost: number };
 
+function processSkins(skins: ISkinWithPrice[], translatedSkins: IRequestSkins) {
+	return skins.filter((skin) => {
+		if (
+			skin.name === 'Original' ||
+			skin.cost === 'Special' ||
+			skin.availability === 'Upcoming'
+		) {
+			return false;
+		}
+		if (translatedSkins[skin.id]) {
+			skin.name = translatedSkins[skin.id].name;
+		}
+		return true;
+	});
+}
+
 const Home = () => {
 	const requestChampions = useFetch<IRequestChampions>(
 		CHAMPIONS_WITH_PRICES_URL,
@@ -46,36 +62,20 @@ const Home = () => {
 			setSearchList([]);
 			setSelectedList([]);
 			Object.values(requestChampions.data).forEach((item) => {
+				if (item.key === 'Briar') return;
 				if (
-					requestChampionsTranslate.data?.data &&
-					requestChampionsTranslate.data?.data[item.key]
+					requestChampionsTranslate.data!.data &&
+					requestChampionsTranslate.data!.data[item.key]
 				) {
-					item.title = requestChampionsTranslate.data?.data[item.key].title;
+					item.title = requestChampionsTranslate.data!.data[item.key].title;
 				}
-				item.skins = item.skins.filter((skin) => {
-					if (
-						skin.name === 'Original' ||
-						skin.cost === 'Special' ||
-						skin.availability === 'Upcoming'
-					) {
-						return false;
-					}
-					if (requestSkins.data && requestSkins.data[skin.id]) {
-						skin.name = requestSkins.data[skin.id].name;
-					}
-					return true;
-				});
+				item.skins = processSkins(item.skins, requestSkins.data!);
 				setSearchList((skins) => [
 					...skins,
+					item as IRequestChampionsProcessed,
 					...(item.skins as IRequestSkinsProcessed[]),
 				]);
 			});
-			setSearchList((skins) => [
-				...((requestChampions.data
-					? Object.values(requestChampions.data)
-					: []) as IRequestChampionsProcessed[]),
-				...skins,
-			]);
 		}
 		handleData();
 	}, [

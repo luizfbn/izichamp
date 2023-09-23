@@ -51,3 +51,14 @@ li {
 	padding: 0;
 	margin: 0;
 }
+
+a {
+	text-decoration: none;
+	color: var(--color-p1);
+}
+
+.container {
+	max-width: 75rem;
+	padding: 0 1rem;
+	margin: 0 auto;
+}
