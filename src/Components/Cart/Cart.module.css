@@ -42,6 +42,9 @@
 		display: grid;
 		max-width: 320px;
 	}
+	.emptyCart h2 {
+		font-size: 1.25rem;
+	}
 }
 
 @media (max-width: 576px) {
@@ -69,6 +72,6 @@
 		width: 125px;
 	}
 	.emptyCart h2 {
-		font-size: 1.25rem;
+		font-size: 1rem;
 	}
 }

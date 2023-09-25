@@ -8,7 +8,7 @@
 	padding: 1.5rem;
 	gap: 1rem;
 	position: sticky;
-	top: 0;
+	top: 1.5rem;
 }
 
 .total h3 {
@@ -96,5 +96,8 @@
 	.total {
 		position: initial;
 		max-height: initial;
+	}
+	.total h3 {
+		font-size: 1rem;
 	}
 }

@@ -62,3 +62,9 @@
 		font-size: 1.25rem;
 	}
 }
+
+@media (max-width: 576) {
+	.cartItemTitle h2 {
+		font-size: 1rem;
+	}
+}

@@ -35,6 +35,7 @@ html {
 body {
 	margin: 0;
 	font-family: var(--type-first);
+	background-color: var(--color-s4);
 }
 
 h1,

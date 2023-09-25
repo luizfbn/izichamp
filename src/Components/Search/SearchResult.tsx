@@ -15,38 +15,40 @@ const SearchResult = ({ list, inputValue, onClickItem }: ISearchResult) => {
 	return (
 		<div className={styles.result}>
 			<ul>
-				{list.map((item) => (
-					<li
-						className={styles.resultItem}
-						key={item.id}
-						onClick={() => onClickItem(item)}
-					>
-						{isSkin(item) ? (
-							<>
-								<SkinIcon />
-								<img
-									width='50'
-									height='50'
-									src={item.tilePath}
-									alt=''
-									loading='lazy'
-								/>
-							</>
-						) : (
-							<>
-								<ChampionIcon />
-								<img
-									width='50'
-									height='50'
-									src={item.icon}
-									alt=''
-									loading='lazy'
-								/>
-							</>
-						)}
-						<p>{item.name}</p>
-					</li>
-				))}
+				{list
+					.filter((item, idx) => idx < 20)
+					.map((item) => (
+						<li
+							className={styles.resultItem}
+							key={item.id}
+							onClick={() => onClickItem(item)}
+						>
+							{isSkin(item) ? (
+								<>
+									<SkinIcon />
+									<img
+										width='50'
+										height='50'
+										src={item.tilePath}
+										alt=''
+										loading='lazy'
+									/>
+								</>
+							) : (
+								<>
+									<ChampionIcon />
+									<img
+										width='50'
+										height='50'
+										src={item.icon}
+										alt=''
+										loading='lazy'
+									/>
+								</>
+							)}
+							<p>{item.name}</p>
+						</li>
+					))}
 				{!list.length && inputValue && (
 					<li className={styles.resultNotFound}>
 						<NotFoundIcon />

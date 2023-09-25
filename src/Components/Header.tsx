@@ -6,9 +6,13 @@ const Header = () => {
 	return (
 		<header className={styles.header}>
 			<nav className={`${styles.nav} container`}>
-				<NavLink to='/'>Home</NavLink>
+				<div>
+					<NavLink to='/'>Home</NavLink>
+				</div>
 				<Logo className={styles.logo} />
-				<NavLink to='/champions'>Campeões</NavLink>
+				<div>
+					<NavLink to='/champions'>Campeões</NavLink>
+				</div>
 			</nav>
 		</header>
 	);

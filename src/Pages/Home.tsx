@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Home.module.css';
 import Search from '../Components/Search/Search';
 import Cart from '../Components/Cart/Cart';
 import useFetch from '../Hooks/useFetch';
@@ -97,21 +98,27 @@ const Home = () => {
 	)
 		return null;
 	return (
-		<div>
-			<h1>Home</h1>
-			<Search
-				list={searchList}
-				mode='select'
-				placeholder='Busque e adicione seu campeão ou skin'
-				responseList={selectedList}
-				setResponseList={
-					setSelectedList as React.Dispatch<
-						React.SetStateAction<ISeachSelect[]>
-					>
-				}
-			/>
+		<section className={`${styles.home} container`}>
+			<h1>Planeje e compre</h1>
+			<h2>
+				Simule um carrinho de compras para ver se os campeões e skins cabem no
+				seu bolso
+			</h2>
+			<div className={styles.searchContainer}>
+				<Search
+					list={searchList}
+					mode='select'
+					placeholder='Busque e adicione seu campeão ou skin'
+					responseList={selectedList}
+					setResponseList={
+						setSelectedList as React.Dispatch<
+							React.SetStateAction<ISeachSelect[]>
+						>
+					}
+				/>
+			</div>
 			<Cart list={selectedList} setList={setSelectedList} />
-		</div>
+		</section>
 	);
 };
 
