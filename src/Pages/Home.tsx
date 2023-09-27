@@ -107,9 +107,7 @@ const Home = () => {
 			<div className={styles.searchContainer}>
 				<Search
 					list={searchList}
-					mode='select'
 					placeholder='Busque e adicione seu campeão ou skin'
-					responseList={selectedList}
 					setResponseList={
 						setSelectedList as React.Dispatch<
 							React.SetStateAction<ISeachSelect[]>

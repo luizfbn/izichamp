@@ -1,0 +1,30 @@
+.champions {
+	padding: 3rem 1.25rem;
+	position: relative;
+}
+
+.searchContainer {
+	max-width: 880px;
+	margin: auto;
+	position: sticky;
+	top: 0.75rem;
+}
+
+.championList {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 2.5rem 3rem;
+	margin-top: 6rem;
+	margin-bottom: 3rem;
+}
+
+.championList > a {
+	justify-self: center;
+}
+
+@media (max-width: 576px) {
+	.championList {
+		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+		margin-top: 3rem;
+	}
+}

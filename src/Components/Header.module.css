@@ -39,7 +39,7 @@
 .nav a {
 	font-family: var(--type-second);
 	font-size: 1.25rem;
-	font-weight: 600;
+	font-weight: 500;
 	line-height: 1.8575;
 	letter-spacing: 0.01875rem;
 	color: var(--color-p1);
