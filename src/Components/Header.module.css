@@ -45,7 +45,6 @@
 	color: var(--color-p1);
 	position: relative;
 	display: inline-block;
-	transition-duration: 0.5s;
 }
 
 .nav a:hover,

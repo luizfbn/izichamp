@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Champions.module.css';
 import useFetch from '../Hooks/useFetch';
 import SearchInput from '../Components/Search/SearchInput';
-import Card from '../Components/Card';
+import Card from '../Components/Card/Card';
 import { ISearchFilter } from '../Types/Search';
 import { CHAMPIONS_URL, IChampion } from '../api';
 import { Link } from 'react-router-dom';
@@ -81,7 +81,8 @@ const Champions = () => {
 		championListFiltered.length,
 	]);
 
-	if (requestChampions.loading === true) return <div>Carregando...</div>;
+	if (requestChampions.loading === true)
+		return <div style={{ color: 'white' }}>Carregando...</div>;
 	if (requestChampions.data === null) return null;
 	return (
 		<section className={`${styles.champions} container`}>
@@ -99,9 +100,13 @@ const Champions = () => {
 					.map((champion) => (
 						<Link to={champion.id} key={champion.id}>
 							<Card
-								item={champion}
 								image={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}
-							/>
+							>
+								<div className={styles.cardTitle}>
+									<h3>{champion.name}</h3>
+									<h4>{champion.title}</h4>
+								</div>
+							</Card>
 						</Link>
 					))}
 			</div>

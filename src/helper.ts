@@ -1,9 +1,16 @@
-import { ISkinWithPrice } from './api';
+import { ISkinPrice } from './api';
 
-export function isSkin<T>(
-	item: T
-): item is T & ISkinWithPrice & { cost: number } {
-	return (item as ISkinWithPrice).cost !== undefined;
+export function isSkin<T>(item: T): item is T & ISkinPrice & { cost: number } {
+	return (item as ISkinPrice).cost !== undefined;
+}
+
+export function mapImagePath(path: string) {
+	const newPath = path.toLocaleLowerCase().split('/lol-game-data/assets/')[1];
+	return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/${newPath}`;
+}
+
+export function removeTagsFromText(text: string) {
+	return text.replace(/<\/?[\w\s]*>|<.+[\W]>/g, ' ');
 }
 
 export function getOrangeEssenceValue(rp: number) {

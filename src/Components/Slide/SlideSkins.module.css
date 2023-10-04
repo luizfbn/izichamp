@@ -1,0 +1,39 @@
+.cardTitleSkin {
+	padding: 0.25rem;
+}
+
+.cardTitleSkin h3 {
+	font-family: var(--type-second);
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1;
+	letter-spacing: 0.013125rem;
+	color: var(--color-p5);
+}
+
+.cardTitleSkin ul {
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+	padding: 0.25rem 0 0 0;
+}
+
+.cardTitleSkin li {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.cardTitleSkin li h4 {
+	font-family: var(--type-first);
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--color-c1);
+}
+
+.cardTitleSkin li svg {
+	height: 12px;
+	width: auto;
+}

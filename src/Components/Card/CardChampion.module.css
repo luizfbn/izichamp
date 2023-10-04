@@ -1,0 +1,41 @@
+.championCard {
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+	padding: 0.5rem 0.25rem;
+}
+
+.championCard li {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.championCard li svg {
+	height: 24px;
+	width: auto;
+}
+
+.championCard li h4 {
+	font-family: var(--type-first);
+	font-size: 1.25rem;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--color-c1);
+}
+
+@media (max-width: 576px) {
+	.championCard {
+		gap: 1rem;
+	}
+	.championCard li {
+		gap: 0.25rem;
+	}
+	.championCard li h4 {
+		font-size: 0.875rem;
+	}
+	.championCard li svg {
+		height: 12px;
+	}
+}

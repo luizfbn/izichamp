@@ -1,15 +1,15 @@
-import { IChampionWithPrice, ISkinWithPrice } from '../api';
+import { IChampionPriceList, ISkinPrice } from '../api';
 
 export type ICartItem = {
 	selected?: boolean;
 	disabledPrice: ICartPriceDisabled;
 } & (IChampionCart | ISkinCart);
 
-export type IChampionCart = IChampionWithPrice & {
+export type IChampionCart = IChampionPriceList & {
 	skins: ISkinCart[];
 };
 
-export type ISkinCart = ISkinWithPrice & {
+export type ISkinCart = ISkinPrice & {
 	cost: number;
 };
 

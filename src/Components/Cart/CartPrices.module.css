@@ -7,7 +7,7 @@
 .prices > div + div {
 	margin-left: 0.75rem;
 	padding-left: 0.75rem;
-	border-image: var(--color-gradient-radial) 1;
+	border-image: var(--color-gradient-radial) 15;
 	border-left-width: 1px;
 	border-left-style: solid;
 }

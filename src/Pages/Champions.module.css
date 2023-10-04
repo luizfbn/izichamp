@@ -22,6 +22,24 @@
 	justify-self: center;
 }
 
+.championList .cardTitle h3 {
+	font-family: var(--type-second);
+	font-size: 1.25rem;
+	font-weight: 500;
+	line-height: 1.2;
+	letter-spacing: 0.01875rem;
+	color: var(--color-p5);
+	margin-bottom: 0.25rem;
+}
+
+.championList .cardTitle h4 {
+	font-family: var(--type-second);
+	font-size: 0.625rem;
+	font-weight: 400;
+	line-height: 1.2;
+	color: var(--color-p1);
+}
+
 @media (max-width: 576px) {
 	.championList {
 		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
