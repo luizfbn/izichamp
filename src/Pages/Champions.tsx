@@ -1,16 +1,13 @@
 import React from 'react';
 import styles from './Champions.module.css';
-import useFetch from '../Hooks/useFetch';
 import SearchInput from '../Components/Search/SearchInput';
 import Card from '../Components/Card/Card';
 import { ISearchFilter } from '../Types/Search';
-import { CHAMPIONS_URL, IChampion } from '../api';
 import { Link } from 'react-router-dom';
-
-type IRequestChampion = { data: { [key: string]: IChampion } };
+import useChampions from '../Hooks/useChampions';
 
 const Champions = () => {
-	const requestChampions = useFetch<IRequestChampion>(CHAMPIONS_URL);
+	const requestChampions = useChampions();
 	const [championList, setChampionList] = React.useState<ISearchFilter[]>([]);
 	const [searchInput, setSearchInput] = React.useState('');
 	const [infinite, setInfinite] = React.useState(true);

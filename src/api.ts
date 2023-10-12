@@ -56,7 +56,7 @@ export const SKINS_PT_BR_URL =
 export type ISkinPortuguese = Omit<ISkinPrice, 'availability' | 'cost'>;
 
 export const CHAMPIONS_URL =
-	'https://ddragon.leagueoflegends.com/cdn/13.17.1/data/pt_BR/champion.json';
+	'https://ddragon.leagueoflegends.com/cdn/{version}/data/pt_BR/champion.json';
 export type IChampion = {
 	id: string;
 	key: string;

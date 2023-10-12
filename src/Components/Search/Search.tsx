@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Search.module.css';
 import SearchResult from './SearchResult';
-import { ISeachSelect, ISearchFilter } from '../../Types/Search';
+import { ISeachSelect } from '../../Types/Search';
 import SearchInput from './SearchInput';
 
 type ISearch = {

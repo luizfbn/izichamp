@@ -50,7 +50,7 @@ const CartPrices = ({
 					price: {
 						...item.price,
 						blueEssence: checkedBeList.includes(itemId)
-							? originalItem.price.blueEssence * 0.6
+							? Number((originalItem.price.blueEssence * 0.6).toFixed(2))
 							: originalItem.price.blueEssence,
 					},
 				}),
@@ -65,13 +65,20 @@ const CartPrices = ({
 				...item,
 				...(isSkin(originalItem) &&
 					isSkin(item) && {
-						cost: originalItem.cost - originalItem.cost * (value / 100),
+						cost: Number(
+							(originalItem.cost - originalItem.cost * (value / 100)).toFixed(2)
+						),
 					}),
 				...(!isSkin(originalItem) &&
 					!isSkin(item) && {
 						price: {
 							...item.price,
-							rp: originalItem.price.rp - originalItem.price.rp * (value / 100),
+							rp: Number(
+								(
+									originalItem.price.rp -
+									originalItem.price.rp * (value / 100)
+								).toFixed(2)
+							),
 						},
 					}),
 			};
