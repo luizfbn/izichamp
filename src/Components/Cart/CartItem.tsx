@@ -20,16 +20,21 @@ const CartItem = ({ item, list, setList, setCartList }: ICartItemProps) => {
 	const originalItem = list.find((elem) => elem.id === item.id);
 
 	function handleDelete(item: ICartItem) {
-		handleCheckboxDelete(item.id, [setCheckedBe, setCheckedRp]);
-		setList((list) => {
-			return list.filter((listItem) => {
-				if (listItem.id === item.id) {
-					listItem.selected = false;
-					return false;
-				}
-				return true;
+		if (itemRef.current) {
+			itemRef.current.classList.add('animeBottomTop');
+		}
+		setTimeout(() => {
+			handleCheckboxDelete(item.id, [setCheckedBe, setCheckedRp]);
+			setList((list) => {
+				return list.filter((listItem) => {
+					if (listItem.id === item.id) {
+						listItem.selected = false;
+						return false;
+					}
+					return true;
+				});
 			});
-		});
+		}, 500);
 	}
 
 	function handleCheckboxDelete(
@@ -59,11 +64,7 @@ const CartItem = ({ item, list, setList, setCartList }: ICartItemProps) => {
 	if (!cartItem) return null;
 	if (!originalItem) return null;
 	return (
-		<li
-			ref={itemRef}
-			key={cartItem.id}
-			className={`${styles.cartItem} animeTopBottom`}
-		>
+		<li ref={itemRef} className={`${styles.cartItem} animeTopBottom`}>
 			<img
 				width='80'
 				height='80'

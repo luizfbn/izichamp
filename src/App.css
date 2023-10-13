@@ -78,3 +78,17 @@ a {
 		transform: initial;
 	}
 }
+
+.animeBottomTop {
+	animation: animeBottomTop 0.5s forwards;
+}
+
+@keyframes animeBottomTop {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-50px);
+	}
+}

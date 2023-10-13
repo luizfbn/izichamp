@@ -54,7 +54,7 @@ const CartTotal = ({ list, cartList, setList }: ICartTotal) => {
 	if (!cartList) return null;
 	if (total)
 		return (
-			<div className={styles.total}>
+			<div className={`${styles.total} animeTopBottom`}>
 				<h3>Totais</h3>
 				<ul>
 					<li>

@@ -49,9 +49,9 @@ const Cart = ({ list, setList }: ICart) => {
 
 	if (!cartList.length)
 		return (
-			<div className={styles.emptyCart}>
+			<div className={`${styles.emptyCart} animeTopBottom`}>
 				<CoinsIcon />
-				<h2>Sua lista está vazia</h2>
+				<h2>Seu carrinho está vazio</h2>
 			</div>
 		);
 	return (
