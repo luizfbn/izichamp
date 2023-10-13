@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from './Home.module.css';
+import useChampionsAndSkins from '../Hooks/useChampionsAndSkins';
 import Search from '../Components/Search/Search';
 import Cart from '../Components/Cart/Cart';
+import Loading from '../Components/Helper/Loading';
+import Head from '../Components/Helper/Head';
+import Error from './Error';
 import { ISeachSelect } from '../Types/Search';
 import { ICartItem } from '../Types/Cart';
-import useChampionsAndSkins from '../Hooks/useChampionsAndSkins';
-import Loading from '../Components/Loading';
-import Error from './Error';
 
 const Home = () => {
 	const [selectedList, setSelectedList] = React.useState<ICartItem[]>([]);
@@ -17,6 +18,7 @@ const Home = () => {
 	if (data)
 		return (
 			<section className={`${styles.home} container animeTopBottom`}>
+				<Head title='Home' />
 				<h1>Planeje e compre</h1>
 				<h2>
 					Simule um carrinho de compras para ver se os campeões e skins cabem no

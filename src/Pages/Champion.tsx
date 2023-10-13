@@ -1,13 +1,14 @@
 import { useParams } from 'react-router-dom';
 import styles from './Champion.module.css';
-import Card from '../Components/Card/Card';
-import SlideSkins from '../Components/Slide/SlideSkins';
 import useChampion from '../Hooks/useChampion';
 import Spells from '../Components/Spells';
-import ShowMore from '../Components/ShowMore';
+import SlideSkins from '../Components/Slide/SlideSkins';
+import Card from '../Components/Card/Card';
 import CardChampion from '../Components/Card/CardChampion';
+import ShowMore from '../Components/Helper/ShowMore';
+import Loading from '../Components/Helper/Loading';
+import Head from '../Components/Helper/Head';
 import NotFound from './NotFound';
-import Loading from '../Components/Loading';
 import Error from './Error';
 
 const Champion = () => {
@@ -19,6 +20,7 @@ const Champion = () => {
 	if (data)
 		return (
 			<section className={`${styles.champion} container animeTopBottom`}>
+				<Head title={data.name} />
 				<div className={styles.title}>
 					<img src={data.squarePortraitPath} alt='' />
 					<h1>{data.name}</h1>

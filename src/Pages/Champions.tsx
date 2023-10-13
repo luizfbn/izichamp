@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from './Champions.module.css';
-import SearchInput from '../Components/Search/SearchInput';
+import useChampions from '../Hooks/useChampions';
 import Card from '../Components/Card/Card';
+import SearchInput from '../Components/Search/SearchInput';
+import Loading from '../Components/Helper/Loading';
+import Head from '../Components/Helper/Head';
+import Error from './Error';
 import { ISearchFilter } from '../Types/Search';
 import { Link } from 'react-router-dom';
-import useChampions from '../Hooks/useChampions';
-import Loading from '../Components/Loading';
-import Error from './Error';
 
 const Champions = () => {
 	const { data, loading, error } = useChampions();
@@ -85,6 +86,7 @@ const Champions = () => {
 	if (data)
 		return (
 			<section className={`${styles.champions} container animeTopBottom`}>
+				<Head title='Campeões' />
 				<div className={styles.searchContainer}>
 					<SearchInput
 						type='text'

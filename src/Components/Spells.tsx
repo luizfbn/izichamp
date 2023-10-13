@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Spells.module.css';
-import ShowMore from './ShowMore';
+import ShowMore from './Helper/ShowMore';
 import { IChampionPortuguese } from '../api';
 
 const Spells = ({ spells }: { spells: IChampionPortuguese['spells'] }) => {
