@@ -1,5 +1,5 @@
 .champion {
-	margin: 3rem auto 6rem auto;
+	padding: 3rem 1.25rem 6rem 1.25rem;
 	display: grid;
 	grid-template-columns: auto 1fr;
 	column-gap: 4.5rem;
@@ -168,7 +168,7 @@
 
 @media (max-width: 576px) {
 	.champion {
-		margin: 3rem auto;
+		padding: 3rem 1rem;
 	}
 	.title img {
 		width: 80px;

@@ -13,10 +13,13 @@ const useChampions = () => {
 	const requestChampions = useFetch<IRequestChampion>(
 		CHAMPIONS_URL.replace('{version}', '13.17.1')
 	);
+	const loading =
+		!(/* requestLoLVersion.data &&  */ requestChampions.data) &&
+		!(/* requestLoLVersion.error ||  */ requestChampions.error);
 
 	return {
 		data: requestChampions.data,
-		loading: requestChampions.loading /*  || requestLoLVersion.loading */,
+		loading,
 		error: requestChampions.error /*  || requestLoLVersion.error */,
 	};
 };

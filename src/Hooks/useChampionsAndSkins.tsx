@@ -46,6 +46,17 @@ const useChampionsAndSkins = () => {
 	const [data, setData] = React.useState<
 		(IRequestChampionsProcessed | IRequestSkinsProcessed)[]
 	>([]);
+	const loading =
+		!(
+			requestChampions.data &&
+			requestSkins.data &&
+			requestChampionsTranslate.data
+		) &&
+		!(
+			requestChampions.error ||
+			requestSkins.error ||
+			requestChampionsTranslate.error
+		);
 
 	React.useEffect(() => {
 		function handleData() {
@@ -81,10 +92,7 @@ const useChampionsAndSkins = () => {
 
 	return {
 		data,
-		loading:
-			requestChampions.loading ||
-			requestChampionsTranslate.loading ||
-			requestSkins.loading,
+		loading,
 		error:
 			requestChampions.error ||
 			requestChampionsTranslate.error ||

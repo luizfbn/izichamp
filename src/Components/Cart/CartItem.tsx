@@ -16,6 +16,7 @@ const CartItem = ({ item, list, setList, setCartList }: ICartItemProps) => {
 	const [cartItem, setCartItem] = React.useState<ICartItem>(item);
 	const [checkedBe, setCheckedBe] = React.useState<number[]>([]);
 	const [checkedRp, setCheckedRp] = React.useState<number[]>([]);
+	const itemRef = React.useRef<HTMLLIElement>(null);
 	const originalItem = list.find((elem) => elem.id === item.id);
 
 	function handleDelete(item: ICartItem) {
@@ -58,7 +59,11 @@ const CartItem = ({ item, list, setList, setCartList }: ICartItemProps) => {
 	if (!cartItem) return null;
 	if (!originalItem) return null;
 	return (
-		<li key={cartItem.id} className={styles.cartItem}>
+		<li
+			ref={itemRef}
+			key={cartItem.id}
+			className={`${styles.cartItem} animeTopBottom`}
+		>
 			<img
 				width='80'
 				height='80'

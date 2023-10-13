@@ -56,6 +56,9 @@ const useChampion = (id: string) => {
 			: ''
 	);
 	const [data, setData] = React.useState<IRequestChampionProcessed>();
+	const loading =
+		!(requestChampionPrices.data && requestChampionTranslate.data) &&
+		!(requestChampionPrices.error || requestChampionTranslate.error);
 
 	React.useEffect(() => {
 		function handleData() {
@@ -79,7 +82,7 @@ const useChampion = (id: string) => {
 
 	return {
 		data,
-		loading: requestChampionPrices.loading || requestChampionTranslate.loading,
+		loading,
 		error: requestChampionPrices.error || requestChampionTranslate.error,
 	};
 };

@@ -25,6 +25,7 @@ function useFetch<T>(
 			setLoading(true);
 			setError(null);
 			setData(null);
+			if (url === '') return;
 			try {
 				const response = await fetch(url, {
 					signal,

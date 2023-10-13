@@ -5,9 +5,11 @@ import Card from '../Components/Card/Card';
 import { ISearchFilter } from '../Types/Search';
 import { Link } from 'react-router-dom';
 import useChampions from '../Hooks/useChampions';
+import Loading from '../Components/Loading';
+import Error from './Error';
 
 const Champions = () => {
-	const requestChampions = useChampions();
+	const { data, loading, error } = useChampions();
 	const [championList, setChampionList] = React.useState<ISearchFilter[]>([]);
 	const [searchInput, setSearchInput] = React.useState('');
 	const [infinite, setInfinite] = React.useState(true);
@@ -22,12 +24,12 @@ const Champions = () => {
 
 	React.useEffect(() => {
 		function handleData() {
-			if (!requestChampions.data) return;
-			const champions = Object.values(requestChampions.data.data);
+			if (!data) return;
+			const champions = Object.values(data.data);
 			setChampionList(champions);
 		}
 		handleData();
-	}, [requestChampions.data]);
+	}, [data]);
 
 	React.useEffect(() => {
 		setChampionLength(8);
@@ -78,37 +80,37 @@ const Champions = () => {
 		championListFiltered.length,
 	]);
 
-	if (requestChampions.loading === true)
-		return <div style={{ color: 'white' }}>Carregando...</div>;
-	if (requestChampions.data === null) return null;
-	return (
-		<section className={`${styles.champions} container`}>
-			<div className={styles.searchContainer}>
-				<SearchInput
-					type='text'
-					value={searchInput}
-					onChange={({ target }) => setSearchInput(target.value)}
-					placeholder='Busque seu campeão'
-				/>
-			</div>
-			<div className={styles.championList}>
-				{(searchInput ? championListFiltered : championList)
-					.filter((item, idx) => idx < championLength)
-					.map((champion) => (
-						<Link to={champion.id} key={champion.id}>
-							<Card
-								image={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}
-							>
-								<div className={styles.cardTitle}>
-									<h3>{champion.name}</h3>
-									<h4>{champion.title}</h4>
-								</div>
-							</Card>
-						</Link>
-					))}
-			</div>
-		</section>
-	);
+	if (loading) return <Loading className='container' />;
+	if (error) return <Error />;
+	if (data)
+		return (
+			<section className={`${styles.champions} container animeTopBottom`}>
+				<div className={styles.searchContainer}>
+					<SearchInput
+						type='text'
+						value={searchInput}
+						onChange={({ target }) => setSearchInput(target.value)}
+						placeholder='Busque seu campeão'
+					/>
+				</div>
+				<div className={styles.championList}>
+					{(searchInput ? championListFiltered : championList)
+						.filter((item, idx) => idx < championLength)
+						.map((champion) => (
+							<Link to={champion.id} key={champion.id}>
+								<Card
+									image={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}
+								>
+									<div className={styles.cardTitle}>
+										<h3>{champion.name}</h3>
+										<h4>{champion.title}</h4>
+									</div>
+								</Card>
+							</Link>
+						))}
+				</div>
+			</section>
+		);
 };
 
 export default Champions;

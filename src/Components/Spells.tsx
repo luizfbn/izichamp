@@ -5,6 +5,15 @@ import { IChampionPortuguese } from '../api';
 
 const Spells = ({ spells }: { spells: IChampionPortuguese['spells'] }) => {
 	const [activeTab, setActiveTab] = React.useState(0);
+	const infoRef = React.useRef<HTMLDivElement>(null);
+
+	React.useEffect(() => {
+		if (infoRef.current) {
+			infoRef.current.classList.remove('animeTopBottom');
+			void infoRef.current.offsetWidth;
+			infoRef.current.classList.add('animeTopBottom');
+		}
+	}, [activeTab]);
 
 	return (
 		<div className={styles.spells}>
@@ -22,7 +31,7 @@ const Spells = ({ spells }: { spells: IChampionPortuguese['spells'] }) => {
 					</li>
 				))}
 			</ul>
-			<div className={styles.info}>
+			<div ref={infoRef} className={styles.info}>
 				<h3>{spells[activeTab].name}</h3>
 				<p>
 					<ShowMore text={spells[activeTab].description} length={200} />

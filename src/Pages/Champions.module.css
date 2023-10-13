@@ -41,6 +41,9 @@
 }
 
 @media (max-width: 576px) {
+	.champions {
+		padding: 3rem 1rem;
+	}
 	.championList {
 		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 		margin-top: 3rem;

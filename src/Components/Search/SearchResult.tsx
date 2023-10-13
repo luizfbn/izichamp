@@ -1,7 +1,7 @@
 import styles from './SearchResult.module.css';
 import { ReactComponent as ChampionIcon } from '../../Assets/champion.svg';
 import { ReactComponent as SkinIcon } from '../../Assets/skin.svg';
-import { ReactComponent as NotFoundIcon } from '../../Assets/search-not-found.svg';
+import { ReactComponent as NotFoundIcon } from '../../Assets/not-found.svg';
 import { ISeachSelect } from '../../Types/Search';
 import { isSkin } from '../../helper';
 

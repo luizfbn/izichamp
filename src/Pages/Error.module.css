@@ -1,0 +1,18 @@
+.error {
+	text-align: center;
+	padding: 3rem 1.25rem;
+}
+
+.error svg {
+	width: 120px;
+	height: auto;
+}
+
+.error p {
+	font-family: var(--type-second);
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--color-p2);
+	margin: 1.5rem 0;
+}
