@@ -1,6 +1,5 @@
-import { useParams } from 'react-router-dom';
 import styles from './Champion.module.css';
-import useChampion from '../Hooks/useChampion';
+import useFetch from '../Hooks/useFetch';
 import Spells from '../Components/Spells';
 import SlideSkins from '../Components/Slide/SlideSkins';
 import Card from '../Components/Card/Card';
@@ -10,10 +9,14 @@ import Loading from '../Components/Helper/Loading';
 import Head from '../Components/Helper/Head';
 import NotFound from './NotFound';
 import Error from './Error';
+import { useParams } from 'react-router-dom';
+import { IChampionById } from '../Types/Api';
 
 const Champion = () => {
 	const { id } = useParams();
-	const { data, loading, error } = useChampion(id ? id : '');
+	const { data, loading, error } = useFetch<IChampionById>(
+		`${import.meta.env.VITE_API_URL}/champions/${id}`
+	);
 
 	if (loading) return <Loading className='container' />;
 	if (error) return <Error />;
@@ -27,8 +30,8 @@ const Champion = () => {
 					<h3>{data.title}</h3>
 					<div>
 						<CardChampion
-							rp={data.price.rp}
-							blueEssence={data.price.blueEssence}
+							rp={data.cost.rp}
+							blueEssence={data.cost.blueEssence}
 						/>
 					</div>
 				</div>
@@ -38,8 +41,8 @@ const Champion = () => {
 						size={{ width: '280px', height: '504px' }}
 					>
 						<CardChampion
-							rp={data.price.rp}
-							blueEssence={data.price.blueEssence}
+							rp={data.cost.rp}
+							blueEssence={data.cost.blueEssence}
 						/>
 					</Card>
 				</div>

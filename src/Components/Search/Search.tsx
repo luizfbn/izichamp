@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Search.module.css';
 import SearchResult from './SearchResult';
-import { ISeachSelect } from '../../Types/Search';
 import SearchInput from './SearchInput';
+import { ISeachSelect } from '../../Types/Search';
 
 type ISearch = {
 	placeholder?: string;

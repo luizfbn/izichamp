@@ -3,7 +3,6 @@ import { ReactComponent as ChampionIcon } from '../../Assets/champion.svg';
 import { ReactComponent as SkinIcon } from '../../Assets/skin.svg';
 import { ReactComponent as NotFoundIcon } from '../../Assets/not-found.svg';
 import { ISeachSelect } from '../../Types/Search';
-import { isSkin } from '../../helper';
 
 type ISearchResult = {
 	list: ISeachSelect[];
@@ -13,7 +12,7 @@ type ISearchResult = {
 
 const SearchResult = ({ list, inputValue, onClickItem }: ISearchResult) => {
 	return (
-		<div className={styles.result}>
+		<div className={`animeTopBottom ${styles.result}`}>
 			<ul>
 				{list
 					.filter((item, idx) => idx < 20)
@@ -23,29 +22,14 @@ const SearchResult = ({ list, inputValue, onClickItem }: ISearchResult) => {
 							key={item.id}
 							onClick={() => onClickItem(item)}
 						>
-							{isSkin(item) ? (
-								<>
-									<SkinIcon />
-									<img
-										width='50'
-										height='50'
-										src={item.tilePath}
-										alt=''
-										loading='lazy'
-									/>
-								</>
-							) : (
-								<>
-									<ChampionIcon />
-									<img
-										width='50'
-										height='50'
-										src={item.icon}
-										alt=''
-										loading='lazy'
-									/>
-								</>
-							)}
+							{item.type === 'Champion' ? <ChampionIcon /> : <SkinIcon />}
+							<img
+								width='50'
+								height='50'
+								src={item.tilePath}
+								alt=''
+								loading='lazy'
+							/>
 							<p>{item.name}</p>
 						</li>
 					))}

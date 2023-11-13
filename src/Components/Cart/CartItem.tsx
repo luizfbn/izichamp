@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './CartItem.module.css';
 import CartPrices from './CartPrices';
 import { ICartItem } from '../../Types/Cart';
-import { isSkin } from '../../helper';
 import { ReactComponent as DeleteIcon } from '../../Assets/trash.svg';
 
 type ICartItemProps = {
@@ -68,13 +67,13 @@ const CartItem = ({ item, list, setList, setCartList }: ICartItemProps) => {
 			<img
 				width='80'
 				height='80'
-				src={isSkin(cartItem) ? cartItem.tilePath : cartItem.icon}
+				src={cartItem.tilePath}
 				alt=''
 				loading='lazy'
 			/>
 			<div className={styles.cartItemTitle}>
 				<h2>{cartItem.name}</h2>
-				{!isSkin(cartItem) && <h4>{cartItem.title}</h4>}
+				{cartItem.type === 'Champion' && <h4>{cartItem.title}</h4>}
 			</div>
 			<CartPrices
 				originalItem={originalItem}

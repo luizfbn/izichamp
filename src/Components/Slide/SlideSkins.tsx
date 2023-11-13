@@ -1,12 +1,11 @@
 import styles from './SlideSkins.module.css';
 import Slide from './Slide';
 import Card from '../Card/Card';
-import { IChampionPrice } from '../../api';
-import { getOrangeEssenceValue } from '../../helper';
+import { IChampionById } from '../../Types/Api';
 import { ReactComponent as OEIcon } from '../../Assets/oe.svg';
 import { ReactComponent as RPIcon } from '../../Assets/rp.svg';
 
-const SlideSkins = ({ skins }: { skins: IChampionPrice['skins'] }) => {
+const SlideSkins = ({ skins }: { skins: IChampionById['skins'] }) => {
 	return (
 		<Slide>
 			{skins.map((skin) => (
@@ -16,11 +15,11 @@ const SlideSkins = ({ skins }: { skins: IChampionPrice['skins'] }) => {
 						<ul>
 							<li>
 								<RPIcon />
-								<h4>{skin.cost}</h4>
+								<h4>{skin.cost.rp}</h4>
 							</li>
 							<li>
 								<OEIcon />
-								<h4>{getOrangeEssenceValue(skin.cost as number)}</h4>
+								<h4>{skin.cost.orangeEssence}</h4>
 							</li>
 						</ul>
 					</div>

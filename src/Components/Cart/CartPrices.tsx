@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './CartPrices.module.css';
 import CartPrice from './CartPrice';
-import { getOrangeEssenceValue, isSkin } from '../../helper';
-import { ICartItem, IChampionCart, ISkinCart } from '../../Types/Cart';
-
+import { ICartItem } from '../../Types/Cart';
+import { IChampion, ISkin } from '../../Types/Api';
 type ICartPrices = {
 	originalItem: ICartItem;
 	cartItem: ICartItem;
@@ -42,47 +41,42 @@ const CartPrices = ({
 	}
 
 	function handleBlueEssenceDiscount(itemId: number, checkedBeList: number[]) {
-		if (isSkin(originalItem)) return;
+		if (originalItem.type === 'Skin') return;
 		setCartItem((item) => {
-			const updatedItem = {
-				...item,
-				...(!isSkin(item) && {
-					price: {
-						...item.price,
-						blueEssence: checkedBeList.includes(itemId)
-							? Number((originalItem.price.blueEssence * 0.6).toFixed(2))
-							: originalItem.price.blueEssence,
-					},
-				}),
-			};
-			return updatedItem;
+			return item.type === 'Champion'
+				? {
+						...item,
+						cost: {
+							rp: item.cost.rp,
+							blueEssence: checkedBeList.includes(itemId)
+								? Number((originalItem.cost.blueEssence * 0.6).toFixed(2))
+								: originalItem.cost.blueEssence,
+						},
+				  }
+				: item;
 		});
 	}
 
 	function handleRpDiscount(value: number) {
+		const discount = Number(
+			(originalItem.cost.rp - originalItem.cost.rp * (value / 100)).toFixed(2)
+		);
 		setCartItem((item) => {
-			const updatedItem = {
-				...item,
-				...(isSkin(originalItem) &&
-					isSkin(item) && {
-						cost: Number(
-							(originalItem.cost - originalItem.cost * (value / 100)).toFixed(2)
-						),
-					}),
-				...(!isSkin(originalItem) &&
-					!isSkin(item) && {
-						price: {
-							...item.price,
-							rp: Number(
-								(
-									originalItem.price.rp -
-									originalItem.price.rp * (value / 100)
-								).toFixed(2)
-							),
+			return item.type === 'Champion'
+				? {
+						...item,
+						cost: {
+							blueEssence: item.cost.blueEssence,
+							rp: discount,
 						},
-					}),
-			};
-			return updatedItem;
+				  }
+				: {
+						...item,
+						cost: {
+							orangeEssence: item.cost.orangeEssence,
+							rp: discount,
+						},
+				  };
 		});
 	}
 
@@ -97,10 +91,8 @@ const CartPrices = ({
 	}
 
 	function handleRpOldPrice(item: ICartItem) {
-		const originalValue = isSkin(originalItem)
-			? originalItem.cost
-			: originalItem.price.rp;
-		const currentValue = isSkin(item) ? item.cost : item.price.rp;
+		const originalValue = originalItem.cost.rp;
+		const currentValue = item.cost.rp;
 		if (originalValue !== currentValue) return originalValue;
 		return undefined;
 	}
@@ -121,7 +113,7 @@ const CartPrices = ({
 					});
 				}}
 				disablePrice={cartItem.disabledPrice.RP}
-				price={isSkin(cartItem) ? cartItem.cost : cartItem.price.rp}
+				price={cartItem.cost.rp}
 				oldPrice={handleRpOldPrice(cartItem)}
 				checkbox={{
 					id: cartItem.id + '_rp',
@@ -138,7 +130,7 @@ const CartPrices = ({
 						: undefined
 				}
 			/>
-			{isSkin(cartItem) ? (
+			{cartItem.type === 'Skin' ? (
 				<CartPrice
 					type='OE'
 					onClickPrice={() => {
@@ -153,7 +145,7 @@ const CartPrices = ({
 						});
 					}}
 					disablePrice={cartItem.disabledPrice.OE}
-					price={getOrangeEssenceValue((originalItem as ISkinCart).cost)}
+					price={(originalItem as ISkin).cost.orangeEssence}
 				/>
 			) : (
 				<CartPrice
@@ -170,8 +162,8 @@ const CartPrices = ({
 						});
 					}}
 					disablePrice={cartItem.disabledPrice.BE}
-					price={cartItem.price.blueEssence}
-					oldPrice={(originalItem as IChampionCart).price.blueEssence}
+					price={cartItem.cost.blueEssence}
+					oldPrice={(originalItem as IChampion).cost.blueEssence}
 					checkbox={{
 						id: cartItem.id + '_be',
 						checked: checked.BE.list.includes(cartItem.id),

@@ -3,7 +3,6 @@ import styles from './Cart.module.css';
 import CartItem from './CartItem';
 import CartTotal from './CartTotal';
 import { ICartItem } from '../../Types/Cart';
-import { isSkin } from '../../helper';
 import { ReactComponent as CoinsIcon } from '../../Assets/coins.svg';
 
 type ICart = {
@@ -27,7 +26,7 @@ function getAddedItems(oldCartList: ICartItem[], newCartList: ICartItem[]) {
 				...item,
 				disabledPrice: {
 					RP: false,
-					...(isSkin(item) ? { OE: false } : { BE: false }),
+					...(item.type === 'Champion' ? { BE: false } : { OE: false }),
 				},
 			};
 		});

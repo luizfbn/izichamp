@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Champions.module.css';
-import useChampions from '../Hooks/useChampions';
+import useFetch from '../Hooks/useFetch';
 import Card from '../Components/Card/Card';
 import SearchInput from '../Components/Search/SearchInput';
 import Loading from '../Components/Helper/Loading';
@@ -8,9 +8,12 @@ import Head from '../Components/Helper/Head';
 import Error from './Error';
 import { ISearchFilter } from '../Types/Search';
 import { Link } from 'react-router-dom';
+import { IChampionList } from '../Types/Api';
 
 const Champions = () => {
-	const { data, loading, error } = useChampions();
+	const { data, loading, error } = useFetch<IChampionList[]>(
+		`${import.meta.env.VITE_API_URL}/champions`
+	);
 	const [championList, setChampionList] = React.useState<ISearchFilter[]>([]);
 	const [searchInput, setSearchInput] = React.useState('');
 	const [infinite, setInfinite] = React.useState(true);
@@ -26,8 +29,7 @@ const Champions = () => {
 	React.useEffect(() => {
 		function handleData() {
 			if (!data) return;
-			const champions = Object.values(data.data);
-			setChampionList(champions);
+			setChampionList(data);
 		}
 		handleData();
 	}, [data]);

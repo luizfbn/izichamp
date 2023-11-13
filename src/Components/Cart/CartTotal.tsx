@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './CartTotal.module.css';
 import { ICartItem } from '../../Types/Cart';
-import { getOrangeEssenceValue, isSkin } from '../../helper';
 import { ReactComponent as BEIcon } from '../../Assets/be.svg';
 import { ReactComponent as OEIcon } from '../../Assets/oe.svg';
 import { ReactComponent as RPIcon } from '../../Assets/rp.svg';
@@ -19,15 +18,16 @@ const CartTotal = ({ list, cartList, setList }: ICartTotal) => {
 		setList((list) => {
 			list.forEach((item) => {
 				item.selected = false;
-				item.disabledPrice = isSkin(item)
-					? {
-							OE: false,
-							RP: false,
-					  }
-					: {
-							BE: false,
-							RP: false,
-					  };
+				item.disabledPrice =
+					item.type === 'Skin'
+						? {
+								OE: false,
+								RP: false,
+						  }
+						: {
+								BE: false,
+								RP: false,
+						  };
 			});
 			return [];
 		});
@@ -37,14 +37,16 @@ const CartTotal = ({ list, cartList, setList }: ICartTotal) => {
 		setTotal(() => {
 			const total = [0, 0, 0];
 			cartList.map((item) => {
-				if (!isSkin(item) && !item.disabledPrice.BE)
-					total[0] += item.price.blueEssence;
-				if (!isSkin(item) && !item.disabledPrice.RP) total[2] += item.price.rp;
-				if (isSkin(item) && !item.disabledPrice.RP) total[2] += item.cost;
-				if (isSkin(item) && !item.disabledPrice.OE) {
+				if (item.type === 'Champion' && !item.disabledPrice.BE)
+					total[0] += item.cost.blueEssence;
+				if (item.type === 'Champion' && !item.disabledPrice.RP)
+					total[2] += item.cost.rp;
+				if (item.type === 'Skin' && !item.disabledPrice.RP)
+					total[2] += item.cost.rp;
+				if (item.type === 'Skin' && !item.disabledPrice.OE) {
 					const originalItem = list.find((elem) => elem.id === item.id);
-					if (!originalItem || !isSkin(originalItem)) return;
-					total[1] += getOrangeEssenceValue(originalItem.cost);
+					if (!originalItem || originalItem.type === 'Champion') return;
+					total[1] += originalItem.cost.orangeEssence;
 				}
 			});
 			return total;

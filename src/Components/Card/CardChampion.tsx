@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './CardChampion.module.css';
 import { ReactComponent as BEIcon } from '../../Assets/be.svg';
 import { ReactComponent as RPIcon } from '../../Assets/rp.svg';

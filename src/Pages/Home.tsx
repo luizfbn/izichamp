@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Home.module.css';
-import useChampionsAndSkins from '../Hooks/useChampionsAndSkins';
+import useFetch from '../Hooks/useFetch';
 import Search from '../Components/Search/Search';
 import Cart from '../Components/Cart/Cart';
 import Loading from '../Components/Helper/Loading';
@@ -8,10 +8,13 @@ import Head from '../Components/Helper/Head';
 import Error from './Error';
 import { ISeachSelect } from '../Types/Search';
 import { ICartItem } from '../Types/Cart';
+import { IChampion, ISkin } from '../Types/Api';
 
 const Home = () => {
 	const [selectedList, setSelectedList] = React.useState<ICartItem[]>([]);
-	const { data, loading, error } = useChampionsAndSkins();
+	const { data, loading, error } = useFetch<(IChampion | ISkin)[]>(
+		import.meta.env.VITE_API_URL
+	);
 
 	if (loading) return <Loading className='container' />;
 	if (error) return <Error />;
