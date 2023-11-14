@@ -52,9 +52,7 @@ const Champions = () => {
 							length > championListFiltered.length)
 					) {
 						setChampionLength(
-							championListFiltered.length
-								? championListFiltered.length
-								: championList.length
+							championListFiltered.length ? championListFiltered.length : 8
 						);
 						setInfinite(false);
 					} else {
