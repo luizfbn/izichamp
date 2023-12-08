@@ -31,7 +31,7 @@ function useFetch<T>(
 					signal,
 					...optionsRef.current,
 				});
-				if (!response.ok) throw new Error(`Error: ${response.status}`);
+				if (!response.ok) throw new Error(`${response.status}`);
 				const json: T = await response.json();
 				if (!signal.aborted) setData(json);
 			} catch (error) {

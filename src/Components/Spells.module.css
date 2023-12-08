@@ -123,4 +123,7 @@
 	.info p {
 		font-size: 0.75rem;
 	}
+	.info p button {
+		font-size: 0.75rem;
+	}
 }
