@@ -14,6 +14,15 @@
 	box-sizing: border-box;
 }
 
+.cardOnHover {
+	transition-property: box-shadow, color;
+	transition-duration: 0.5s;
+}
+
+.cardOnHover:hover {
+	box-shadow: 0 0 24px var(--color-p5);
+}
+
 .card > div {
 	text-align: center;
 	background: rgba(28, 34, 41, 0.75);

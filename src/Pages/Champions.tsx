@@ -47,11 +47,13 @@ const Champions = () => {
 				const scroll = window.scrollY;
 				const height = document.body.offsetHeight - window.innerHeight;
 				if (scroll > height * 0.9 && !wait) {
-					const length = championLength + 4;
-					if (
-						length > championList.length ||
-						(championListFiltered.length &&
-							length > championListFiltered.length)
+					const length = championLength + 8;
+					if (length > championList.length) {
+						setChampionLength(championList.length);
+						setInfinite(false);
+					} else if (
+						championListFiltered.length &&
+						length > championListFiltered.length
 					) {
 						setChampionLength(
 							championListFiltered.length ? championListFiltered.length : 8
@@ -102,6 +104,7 @@ const Champions = () => {
 							<Link to={champion.id} key={champion.id}>
 								<Card
 									image={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}
+									onHoverStyle
 								>
 									<div className={styles.cardTitle}>
 										<h3>{champion.name}</h3>
