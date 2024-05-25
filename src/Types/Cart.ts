@@ -1,8 +1,15 @@
-import { IChampion, ISkin } from './Api';
+import { ISeachSelect } from './Search';
 
-export type ICartItem = (IChampion | ISkin) & {
-	selected?: boolean;
+export type ICartItem = ISeachSelect & {
 	disabledPrice: ICartPriceDisabled;
+	discountRP: {
+		hasDiscount: boolean;
+		newPrice: number;
+	};
+	discountBE: {
+		hasDiscount: boolean;
+		newPrice: number;
+	};
 };
 
 export type ICartPriceDisabled =

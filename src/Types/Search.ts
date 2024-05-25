@@ -1,7 +1,7 @@
 import { IChampion, ISkin, IChampionList } from './Api';
 
 export type ISeachSelect = (IChampion | ISkin) & {
-	selected?: boolean;
+	selected: boolean;
 };
 
 export type ISearchFilter = IChampionList & {

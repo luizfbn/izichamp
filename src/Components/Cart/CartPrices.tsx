@@ -2,129 +2,118 @@ import React from 'react';
 import styles from './CartPrices.module.css';
 import CartPrice from './CartPrice';
 import { ICartItem } from '../../Types/Cart';
-import { IChampion, ISkin } from '../../Types/Api';
+import { IChampion } from '../../Types/Api';
+import { ReactComponent as BEIcon } from '../../Assets/be.svg';
+import { ReactComponent as OEIcon } from '../../Assets/oe.svg';
+import { ReactComponent as RPIcon } from '../../Assets/rp.svg';
+import { ReactComponent as BEDiscountIcon } from '../../Assets/be-check.svg';
+import { ReactComponent as RPDiscountIcon } from '../../Assets/rp-check.svg';
+
 type ICartPrices = {
-	originalItem: ICartItem;
 	cartItem: ICartItem;
 	setCartItem: React.Dispatch<React.SetStateAction<ICartItem>>;
-	checked: {
-		[key in 'BE' | 'RP']: {
-			list: number[];
-			setList: React.Dispatch<React.SetStateAction<number[]>>;
-		};
-	};
 };
 
-const CartPrices = ({
-	originalItem,
-	cartItem,
-	setCartItem,
-	checked,
-}: ICartPrices) => {
+const CartPrices = ({ cartItem, setCartItem }: ICartPrices) => {
 	const [timer, setTimer] = React.useState<number>();
+	const [inputValue, setInputValue] = React.useState<number>(handleDiscount());
 
-	function handleCheckbox(
-		itemId: number,
-		setCheckboxList: React.Dispatch<React.SetStateAction<number[]>>,
-		type: 'BE' | 'RP'
-	) {
-		setCheckboxList((checkboxList) => {
-			const checkedList: number[] = JSON.parse(JSON.stringify(checkboxList));
-			const itemIndex = checkedList.indexOf(itemId);
-			itemIndex !== -1
-				? checkedList.splice(itemIndex, 1)
-				: checkedList.push(itemId);
-			type === 'BE' && handleBlueEssenceDiscount(itemId, checkedList);
-			type === 'RP' && handleRpDiscount(0);
-			return checkedList;
-		});
+	function handleDiscount() {
+		return Number(
+			((1 - cartItem.discountRP.newPrice / cartItem.cost.rp) * 100).toFixed(2)
+		);
 	}
 
-	function handleBlueEssenceDiscount(itemId: number, checkedBeList: number[]) {
-		if (originalItem.type === 'Skin') return;
-		setCartItem((item) => {
-			return item.type === 'Champion'
-				? {
-						...item,
-						cost: {
-							rp: item.cost.rp,
-							blueEssence: checkedBeList.includes(itemId)
-								? Number((originalItem.cost.blueEssence * 0.6).toFixed(2))
-								: originalItem.cost.blueEssence,
+	function handleCheckbox(
+		event: React.ChangeEvent<HTMLInputElement>,
+		type: 'BE' | 'RP'
+	) {
+		if (type === 'BE') {
+			setCartItem((item) => {
+				return {
+					...item,
+					...(item.type === 'Champion' && {
+						discountBE: {
+							hasDiscount: event.target.checked,
+							newPrice: event.target.checked
+								? Number((item.cost.blueEssence * 0.6).toFixed(2))
+								: item.cost.blueEssence,
 						},
-				  }
-				: item;
+					}),
+				};
+			});
+		}
+		if (type === 'RP') {
+			setCartItem((item) => {
+				return {
+					...item,
+					discountRP: {
+						hasDiscount: event.target.checked,
+						newPrice: item.cost.rp,
+					},
+				};
+			});
+		}
+	}
+
+	function handleDisablePrice(type: 'BE' | 'OE' | 'RP') {
+		setCartItem((item) => {
+			return {
+				...item,
+				disabledPrice: {
+					...item.disabledPrice,
+					[type]: !item.disabledPrice[type],
+				},
+			};
 		});
 	}
 
 	function handleRpDiscount(value: number) {
-		const discount = Number(
-			(originalItem.cost.rp - originalItem.cost.rp * (value / 100)).toFixed(2)
-		);
+		const discount = value / 100;
 		setCartItem((item) => {
-			return item.type === 'Champion'
-				? {
-						...item,
-						cost: {
-							blueEssence: item.cost.blueEssence,
-							rp: discount,
-						},
-				  }
-				: {
-						...item,
-						cost: {
-							orangeEssence: item.cost.orangeEssence,
-							rp: discount,
-						},
-				  };
+			return {
+				...item,
+				discountRP: {
+					newPrice: Number((item.cost.rp - item.cost.rp * discount).toFixed(2)),
+					hasDiscount: true,
+				},
+			};
 		});
 	}
 
 	function handleRpInputChange(inputValue: string) {
+		const value = Number(inputValue);
+		setInputValue(value);
 		clearTimeout(timer);
 		const timeout = setTimeout(() => {
-			const value = Number(inputValue);
 			const validValue = value >= 0 && value <= 100;
 			handleRpDiscount(validValue ? value : 0);
 		}, 500);
 		setTimer(timeout);
 	}
 
-	function handleRpOldPrice(item: ICartItem) {
-		const originalValue = originalItem.cost.rp;
-		const currentValue = item.cost.rp;
-		if (originalValue !== currentValue) return originalValue;
-		return undefined;
-	}
-
 	return (
 		<div className={styles.prices}>
 			<CartPrice
-				type='RP'
-				onClickPrice={() => {
-					setCartItem((item) => {
-						return (item = {
-							...item,
-							disabledPrice: {
-								...item.disabledPrice,
-								RP: !item.disabledPrice.RP,
-							},
-						});
-					});
+				icon={<RPIcon />}
+				price={{
+					value: cartItem.discountRP.newPrice,
+					oldValue: cartItem.discountRP.hasDiscount
+						? cartItem.cost.rp
+						: undefined,
+					disabled: cartItem.disabledPrice.RP,
+					onClick: () => handleDisablePrice('RP'),
 				}}
-				disablePrice={cartItem.disabledPrice.RP}
-				price={cartItem.cost.rp}
-				oldPrice={handleRpOldPrice(cartItem)}
 				checkbox={{
 					id: cartItem.id + '_rp',
-					checked: checked.RP.list.includes(cartItem.id),
-					onChange: () => {
-						handleCheckbox(cartItem.id, checked.RP.setList, 'RP');
-					},
+					checked: cartItem.discountRP.hasDiscount,
+					icon: <RPDiscountIcon />,
+					onChange: (event) => handleCheckbox(event, 'RP'),
 				}}
 				inputNumber={
-					checked.RP.list.includes(cartItem.id)
+					cartItem.discountRP.hasDiscount
 						? {
+								value: inputValue,
 								onChange: ({ target }) => handleRpInputChange(target.value),
 						  }
 						: undefined
@@ -132,44 +121,29 @@ const CartPrices = ({
 			/>
 			{cartItem.type === 'Skin' ? (
 				<CartPrice
-					type='OE'
-					onClickPrice={() => {
-						setCartItem((item) => {
-							return (item = {
-								...item,
-								disabledPrice: {
-									RP: item.disabledPrice.RP,
-									OE: !item.disabledPrice.OE,
-								},
-							});
-						});
+					icon={<OEIcon />}
+					price={{
+						value: cartItem.cost.orangeEssence,
+						disabled: cartItem.disabledPrice.OE,
+						onClick: () => handleDisablePrice('OE'),
 					}}
-					disablePrice={cartItem.disabledPrice.OE}
-					price={(originalItem as ISkin).cost.orangeEssence}
 				/>
 			) : (
 				<CartPrice
-					type='BE'
-					onClickPrice={() => {
-						setCartItem((item) => {
-							return (item = {
-								...item,
-								disabledPrice: {
-									RP: item.disabledPrice.RP,
-									BE: !item.disabledPrice.BE,
-								},
-							});
-						});
+					icon={<BEIcon />}
+					price={{
+						value: cartItem.discountBE.newPrice,
+						oldValue: cartItem.discountBE.hasDiscount
+							? (cartItem as IChampion).cost.blueEssence
+							: undefined,
+						disabled: cartItem.disabledPrice.BE,
+						onClick: () => handleDisablePrice('BE'),
 					}}
-					disablePrice={cartItem.disabledPrice.BE}
-					price={cartItem.cost.blueEssence}
-					oldPrice={(originalItem as IChampion).cost.blueEssence}
 					checkbox={{
 						id: cartItem.id + '_be',
-						checked: checked.BE.list.includes(cartItem.id),
-						onChange: () => {
-							handleCheckbox(cartItem.id, checked.BE.setList, 'BE');
-						},
+						checked: cartItem.discountBE.hasDiscount,
+						icon: <BEDiscountIcon />,
+						onChange: (event) => handleCheckbox(event, 'BE'),
 					}}
 				/>
 			)}

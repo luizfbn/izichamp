@@ -7,53 +7,31 @@ import { ReactComponent as RPIcon } from '../../Assets/rp.svg';
 
 type ICartTotal = {
 	list: ICartItem[];
-	cartList: ICartItem[];
-	setList: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+	onDelete: () => void;
 };
 
-const CartTotal = ({ list, cartList, setList }: ICartTotal) => {
+const CartTotal = ({ list, onDelete }: ICartTotal) => {
 	const [total, setTotal] = React.useState([0, 0, 0]);
-
-	function handleDeleteAll() {
-		setList((list) => {
-			list.forEach((item) => {
-				item.selected = false;
-				item.disabledPrice =
-					item.type === 'Skin'
-						? {
-								OE: false,
-								RP: false,
-						  }
-						: {
-								BE: false,
-								RP: false,
-						  };
-			});
-			return [];
-		});
-	}
 
 	React.useEffect(() => {
 		setTotal(() => {
 			const total = [0, 0, 0];
-			cartList.map((item) => {
+			list.map((item) => {
 				if (item.type === 'Champion' && !item.disabledPrice.BE)
-					total[0] += item.cost.blueEssence;
+					total[0] += item.discountBE.newPrice;
 				if (item.type === 'Champion' && !item.disabledPrice.RP)
-					total[2] += item.cost.rp;
+					total[2] += item.discountRP.newPrice;
 				if (item.type === 'Skin' && !item.disabledPrice.RP)
-					total[2] += item.cost.rp;
+					total[2] += item.discountRP.newPrice;
 				if (item.type === 'Skin' && !item.disabledPrice.OE) {
-					const originalItem = list.find((elem) => elem.id === item.id);
-					if (!originalItem || originalItem.type === 'Champion') return;
-					total[1] += originalItem.cost.orangeEssence;
+					total[1] += item.cost.orangeEssence;
 				}
 			});
 			return total;
 		});
-	}, [cartList, list]);
+	}, [list]);
 
-	if (!cartList) return null;
+	if (!list) return null;
 	if (total)
 		return (
 			<div className={`${styles.total} animeTopBottom`}>
@@ -81,7 +59,7 @@ const CartTotal = ({ list, cartList, setList }: ICartTotal) => {
 						</span>
 					</li>
 				</ul>
-				<button onClick={handleDeleteAll}>Remover tudo</button>
+				<button onClick={onDelete}>Remover tudo</button>
 			</div>
 		);
 };

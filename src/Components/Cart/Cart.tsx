@@ -8,45 +8,53 @@ import { ReactComponent as CoinsIcon } from '../../Assets/coins.svg';
 type ICart = {
 	list: ICartItem[];
 	setList: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+	setSearchList: React.Dispatch<React.SetStateAction<ICartItem[]>>;
 };
 
-function getRemainingItems(oldCartList: ICartItem[], newCartList: ICartItem[]) {
-	return oldCartList.filter((item) => {
-		return newCartList.some((elem) => elem.id === item.id);
-	});
+export function resetItem(item: ICartItem) {
+	return {
+		...item,
+		selected: false,
+		disabledPrice: {
+			...(item.type === 'Champion' ? { BE: false } : { OE: false }),
+			RP: false,
+		},
+		discountRP: {
+			hasDiscount: false,
+			newPrice: item.cost.rp,
+		},
+		discountBE: {
+			hasDiscount: false,
+			newPrice: item.type === 'Champion' ? item.cost.blueEssence : 0,
+		},
+	};
 }
 
-function getAddedItems(oldCartList: ICartItem[], newCartList: ICartItem[]) {
-	const newCartItems = newCartList
-		.filter((item) => {
-			return !oldCartList.some((elem) => elem.id === item.id);
-		})
-		.map((item) => {
-			return {
-				...item,
-				disabledPrice: {
-					RP: false,
-					...(item.type === 'Champion' ? { BE: false } : { OE: false }),
-				},
-			};
+const Cart = ({ list, setList, setSearchList }: ICart) => {
+	function handleDelete(item: ICartItem) {
+		setList((list) => {
+			return list.filter((listItem) => listItem.id !== item.id);
 		});
-	return [...oldCartList, ...newCartItems];
-}
-
-const Cart = ({ list, setList }: ICart) => {
-	const [cartList, setCartList] = React.useState<ICartItem[]>(() => list);
-
-	React.useEffect(() => {
-		setCartList((oldCartList) => {
-			const newCartItems =
-				list.length < oldCartList.length
-					? getRemainingItems(oldCartList, list)
-					: getAddedItems(oldCartList, list);
-			return newCartItems.length ? newCartItems : list;
+		setSearchList((list) => {
+			return list.map((itemSearch) => {
+				if (itemSearch.id === item.id) {
+					return resetItem(itemSearch);
+				}
+				return itemSearch;
+			});
 		});
-	}, [list]);
+	}
 
-	if (!cartList.length)
+	function handleDeleteAll() {
+		setList([]);
+		setSearchList((list) => {
+			return list.map((itemSearch) => {
+				return resetItem(itemSearch);
+			});
+		});
+	}
+
+	if (!list.length)
 		return (
 			<div className={`${styles.emptyCart} animeTopBottom`}>
 				<CoinsIcon />
@@ -56,17 +64,16 @@ const Cart = ({ list, setList }: ICart) => {
 	return (
 		<div className={styles.cart}>
 			<ul>
-				{cartList.map((item) => (
+				{list.map((item) => (
 					<CartItem
 						key={item.id}
 						item={item}
-						list={list}
 						setList={setList}
-						setCartList={setCartList}
+						onDelete={handleDelete}
 					/>
 				))}
 			</ul>
-			<CartTotal list={list} cartList={cartList} setList={setList} />
+			<CartTotal list={list} onDelete={handleDeleteAll} />
 		</div>
 	);
 };
