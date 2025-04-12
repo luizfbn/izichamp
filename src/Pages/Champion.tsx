@@ -19,7 +19,7 @@ const Champion = () => {
 	);
 
 	if (loading) return <Loading className='container' />;
-	if (error === '404') return <NotFound />;
+	if (error) return error === '404' ? <NotFound /> : <Error />;
 	if (data)
 		return (
 			<section className={`${styles.champion} container animeTopBottom`}>
@@ -64,7 +64,6 @@ const Champion = () => {
 				</div>
 			</section>
 		);
-	else return <Error />;
 };
 
 export default Champion;
