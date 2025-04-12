@@ -12,6 +12,57 @@
 	border-left-style: solid;
 }
 
+.price {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.priceDiscount {
+	display: flex;
+	line-height: 0;
+	gap: 0.5rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.priceDiscount input[type='number'],
+.priceDiscount input[type='number']:focus {
+	border-image: var(--color-gradient) 1;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.priceDiscount input[type='number'] {
+	background: var(--color-s3);
+	font-family: var(--type-first);
+	font-size: 0.75rem;
+	line-height: 1;
+	color: var(--color-c1);
+	text-align: center;
+	padding: 0.25rem 0.5rem;
+	max-width: 48px;
+	transition: all 0.5s;
+}
+
+.priceDiscount input[type='number']:focus {
+	outline: none;
+	box-shadow: 0 0 4px var(--color-p4);
+}
+
+.priceDiscount input[type='number']::-webkit-outer-spin-button,
+.priceDiscount input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.priceDiscount input[type='number'] {
+	appearance: none;
+	-moz-appearance: textfield;
+}
+
 @media (max-width: 992px) {
 	.prices {
 		margin-right: 0;
