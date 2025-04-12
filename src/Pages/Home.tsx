@@ -28,7 +28,7 @@ const Home = () => {
 	React.useEffect(() => {
 		if (data && data.length) {
 			const list = data.map((item) => {
-				return resetItem(item as ICartItem);
+				return resetItem(item);
 			});
 
 			const savedData = getSavedData();

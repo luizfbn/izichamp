@@ -4,6 +4,7 @@ import CartItem from './CartItem';
 import CartTotal from './CartTotal';
 import { ICartItem } from '../../Types/Cart';
 import { ReactComponent as CoinsIcon } from '../../Assets/coins.svg';
+import { IChampion, ISkin } from '../../Types/Api';
 
 type ICart = {
 	list: ICartItem[];
@@ -11,7 +12,7 @@ type ICart = {
 	setSearchList: React.Dispatch<React.SetStateAction<ICartItem[]>>;
 };
 
-export function resetItem(item: ICartItem) {
+export function resetItem(item: IChampion | ISkin): ICartItem {
 	return {
 		...item,
 		selected: false,
