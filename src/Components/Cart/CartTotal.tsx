@@ -16,52 +16,49 @@ const CartTotal = ({ list, onDelete }: ICartTotal) => {
 	React.useEffect(() => {
 		setTotal(() => {
 			const total = [0, 0, 0];
-			list.map((item) => {
+			list.forEach((item) => {
 				if (item.type === 'Champion' && !item.disabledPrice.BE)
 					total[0] += item.discountBE.newPrice;
 				if (item.type === 'Champion' && !item.disabledPrice.RP)
 					total[2] += item.discountRP.newPrice;
 				if (item.type === 'Skin' && !item.disabledPrice.RP)
 					total[2] += item.discountRP.newPrice;
-				if (item.type === 'Skin' && !item.disabledPrice.OE) {
+				if (item.type === 'Skin' && !item.disabledPrice.OE)
 					total[1] += item.cost.orangeEssence;
-				}
 			});
 			return total;
 		});
 	}, [list]);
 
-	if (!list) return null;
-	if (total)
-		return (
-			<div className={`${styles.total} animeTopBottom`}>
-				<h3>Totais</h3>
-				<ul>
-					<li>
-						<p>Total de essência azul</p>
-						<span>
-							<BEIcon />
-							{total[0]}
-						</span>
-					</li>
-					<li>
-						<p>Total de essência laranja</p>
-						<span>
-							<OEIcon />
-							{total[1]}
-						</span>
-					</li>
-					<li>
-						<p>Total de riot points</p>
-						<span>
-							<RPIcon />
-							{total[2]}
-						</span>
-					</li>
-				</ul>
-				<button onClick={onDelete}>Remover tudo</button>
-			</div>
-		);
+	return (
+		<div className={`${styles.total} animeTopBottom`}>
+			<h3>Totais</h3>
+			<ul>
+				<li>
+					<p>Total de essência azul</p>
+					<span>
+						<BEIcon />
+						{total[0]}
+					</span>
+				</li>
+				<li>
+					<p>Total de essência laranja</p>
+					<span>
+						<OEIcon />
+						{total[1]}
+					</span>
+				</li>
+				<li>
+					<p>Total de riot points</p>
+					<span>
+						<RPIcon />
+						{total[2]}
+					</span>
+				</li>
+			</ul>
+			<button onClick={onDelete}>Remover tudo</button>
+		</div>
+	);
 };
 
 export default CartTotal;
